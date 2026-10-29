@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>5th Sem Exam Study Calendar</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#faf8f4;--card:#fff;--tx:#1f2328;--mu:#6b7280;--bd:#e5e1d8;--ac:#2f6f5e;
+--ERP:#b45309;--DBMS:#1d4ed8;--FLAT:#7e22ce;--SE:#0f766e;--CN:#be123c;--WT:#4d7c0f;color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15171a;--card:#1e2126;--tx:#e8e6e1;--mu:#9aa0a8;--bd:#32363c;--ac:#5fb8a0;
+--ERP:#f59e0b;--DBMS:#60a5fa;--FLAT:#c084fc;--SE:#2dd4bf;--CN:#fb7185;--WT:#a3e635;color-scheme:dark}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 48px}
+h1{font-size:1.5rem;margin:0 0 4px}.sub{color:var(--mu);margin:0 0 16px}
+.bar{height:10px;background:var(--bd);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:var(--ac);transition:width .3s}
+.pt{font-size:.85rem;color:var(--mu);margin:6px 0 16px}
+.ex{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:16px}
+.ex div{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--c);border-radius:8px;padding:8px 10px}
+.ex b{display:block}.ex small{color:var(--mu)}
+.f{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.f button{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:16px;padding:5px 12px;cursor:pointer;font:inherit;font-size:.85rem}
+.f button.on{background:var(--tx);color:var(--bg)}
+h2{font-size:.95rem;color:var(--mu);margin:20px 0 8px;text-transform:uppercase;letter-spacing:.04em}
+.g{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.d{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px}
+.d.today{outline:2px solid var(--ac)}.d.x{border-color:var(--c);border-width:2px}
+.dh{font-weight:600;font-size:.85rem;margin-bottom:6px;display:flex;justify-content:space-between}
+.dh span{color:var(--mu);font-weight:400}
+label{display:flex;gap:7px;align-items:flex-start;padding:4px 0;cursor:pointer;font-size:.86rem}
+label input{margin-top:3px;accent-color:var(--ac)}
+.t{font-weight:700;color:var(--c);margin-right:4px}
+label.dn span.tx{text-decoration:line-through;color:var(--mu)}
+.hide{display:none!important}
+.n{margin-top:24px;font-size:.85rem;color:var(--mu)}
+</style></head><body><main>
+<h1>5th Sem Exam Study Calendar</h1>
+<p class="sub">30 Oct – 28 Nov 2026 · tick tasks as you finish them</p>
+<div class="bar"><i id="pb"></i></div><div class="pt" id="pt"></div>
+<div class="ex" id="ex"></div>
+<div class="f" id="f"></div>
+<div id="cal"></div>
+<p class="n">Assumes about 4–5 focused hours a day. Exam-day evenings are used for the next paper. Ticks are saved in this browser only.</p>
+</main>
+<script>
+const S={ERP:"ERP",DBMS:"DBMS",FLAT:"FLAT",SE:"SE",CN:"CN",WT:"WT"};
+const EX={"2026-11-13":"ERP","2026-11-14":"DBMS","2026-11-17":"FLAT","2026-11-20":"SE","2026-11-25":"CN","2026-11-28":"WT"};
+const P=[
+[["DBMS","ER model, relational algebra, SQL basics"],["ERP","ERP intro, evolution, benefits"]],
+[["DBMS","Normalization (1NF to BCNF)"],["FLAT","DFA, NFA, conversions"]],
+[["ERP","ERP modules and lifecycle"],["FLAT","Regular expressions, pumping lemma"]],
+[["DBMS","SQL practice: joins, subqueries"],["FLAT","CFG, parse trees, ambiguity"]],
+[["ERP","Implementation, BPR, vendors"],["FLAT","PDA, CFG to PDA"]],
+[["DBMS","Transactions, ACID, concurrency"],["FLAT","Turing machines"]],
+[["FLAT","Decidability, P/NP, finish syllabus"],["ERP","Quick revision of notes"]],
+[["DBMS","Past papers (timed)"],["FLAT","Past papers"]],
+[["ERP","Full revision + past papers"],["SE","SDLC models, requirements"]],
+[["DBMS","Revise recovery, indexing, normalization"],["SE","Design and UML"]],
+[["ERP","Past papers + weak topics"],["CN","OSI / TCP-IP layers intro"]],
+[["DBMS","Past papers + SQL speed drill"],["WT","HTML/CSS/JS recap"]],
+[["ERP","Final revision, one-page summary"],["DBMS","Definitions and formula sheet"]],
+[["DBMS","Light revision only"],["ERP","Glance at summary, sleep early"]],
+[["ERP","EXAM: ERP"],["DBMS","Evening: final quick revision"]],
+[["DBMS","EXAM: DBMS"],["FLAT","Evening: DFA/NFA/RE recap"]],
+[["FLAT","Full revision: CFG, PDA, TM"],["FLAT","Solve 2 past papers"]],
+[["FLAT","Weak topics, proofs, pumping lemma"],["FLAT","Final light revision"]],
+[["FLAT","EXAM: FLAT"],["SE","Evening: testing, maintenance"]],
+[["SE","Project management, COCOMO, metrics"],["SE","Past papers"]],
+[["SE","Full revision"],["CN","Physical and data link layer"]],
+[["SE","EXAM: SE"],["CN","Evening: network layer, IP addressing"]],
+[["CN","Subnetting practice, routing"]],
+[["CN","Transport layer, TCP/UDP"],["CN","Application layer: DNS, HTTP"]],
+[["CN","Past papers"],["WT","Servers, HTTP, forms"]],
+[["CN","Final revision, subnetting drill"],["WT","JS, DOM, AJAX"]],
+[["CN","EXAM: CN"],["WT","Evening: server-side basics, JSON"]],
+[["WT","Frameworks, XML, web security"],["WT","Past papers"]],
+[["WT","Full revision + code snippets"]],
+[["WT","EXAM: WT. Good luck!"]]];
+let done={};try{done=JSON.parse(localStorage.getItem("sc")||"{}")}catch(e){}
+const save=()=>{try{localStorage.setItem("sc",JSON.stringify(done))}catch(e){}};
+const col=s=>`var(--${s})`;
+const start=new Date(2026,9,30),iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const now=new Date(),todayIso=iso(now);
+const fmt=(d,o)=>d.toLocaleDateString("en-IN",o);
+let filter="ALL";
+// exam chips
+document.getElementById("ex").innerHTML=Object.entries(EX).map(([k,s])=>{
+ const [y,m,d]=k.split("-"),dt=new Date(+y,m-1,+d),left=Math.ceil((dt-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);
+ return `<div style="--c:${col(s)}"><b>${s}</b><small>${fmt(dt,{day:"numeric",month:"short",weekday:"short"})} · ${left>0?left+" days":left==0?"today":"done"}</small></div>`}).join("");
+// filters
+document.getElementById("f").innerHTML=["ALL",...Object.keys(S)].map(s=>`<button data-s="${s}" class="${s=="ALL"?"on":""}">${s=="ALL"?"All subjects":s}</button>`).join("");
+document.getElementById("f").onclick=e=>{const s=e.target.dataset.s;if(!s)return;filter=s;
+ document.querySelectorAll("#f button").forEach(b=>b.classList.toggle("on",b.dataset.s==s));apply()};
+// calendar
+let html="",wk=-1;
+P.forEach((tasks,i)=>{
+ const d=new Date(2026,9,30+i),k=iso(d),w=Math.floor((i+4)/7);// weeks start Monday (30 Oct is Fri)
+ if(w!==wk){if(wk>=0)html+="</div>";wk=w;html+=`<h2>Week of ${fmt(new Date(2026,9,30+i-(i==0?0:0)),{day:"numeric",month:"short"})}</h2><div class="g">`}
+ const ex=EX[k];
+ html+=`<div class="d${k==todayIso?" today":""}${ex?" x":""}" ${ex?`style="--c:${col(ex)}"`:""} data-day="${i}"><div class="dh">${fmt(d,{weekday:"short",day:"numeric",month:"short"})}<span>${ex?"Exam day":k==todayIso?"Today":""}</span></div>`+
+ tasks.map((t,j)=>{const id=i+"-"+j;return `<label data-s="${t[0]}" class="${done[id]?"dn":""}" style="--c:${col(t[0])}"><input type="checkbox" data-id="${id}" ${done[id]?"checked":""}><span class="tx"><span class="t">${t[0]}</span>${t[1]}</span></label>`}).join("")+"</div>"});
+html+="</div>";document.getElementById("cal").innerHTML=html;
+document.getElementById("cal").onchange=e=>{const id=e.target.dataset.id;if(!id)return;
+ done[id]=e.target.checked;e.target.closest("label").classList.toggle("dn",e.target.checked);save();prog()};
+function prog(){const all=document.querySelectorAll("#cal input"),n=[...all].filter(x=>x.checked).length;
+ document.getElementById("pb").style.width=(n/all.length*100)+"%";
+ document.getElementById("pt").textContent=n+" of "+all.length+" tasks done"}
+function apply(){document.querySelectorAll("#cal label").forEach(l=>l.classList.toggle("hide",filter!="ALL"&&l.dataset.s!=filter));
+ document.querySelectorAll("#cal .d").forEach(d=>d.classList.toggle("hide",filter!="ALL"&&!d.querySelector("label:not(.hide)")))}
+prog();
+</script></body></html>
